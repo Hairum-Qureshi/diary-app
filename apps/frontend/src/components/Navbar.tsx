@@ -14,6 +14,9 @@ export default function Navbar() {
             <li className="inline-block mx-4">
                 <a href="/calendar" className="hover:text-emerald-500 transition">Calendar</a>
             </li>
+            <li className="inline-block mx-4">
+                <a href="/new-entry" className="hover:text-emerald-500 transition">New Entry</a>
+            </li>
         </ul>
     </div>
   )
