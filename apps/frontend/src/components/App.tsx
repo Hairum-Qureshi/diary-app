@@ -7,6 +7,7 @@ import "../css/index.css";
 import Navbar from "./Navbar";
 import Calendar from "../pages/Calendar";
 import DiaryForm from "../pages/DiaryForm";
+import DiaryEntry from "../pages/DiaryEntry";
 
 export default function App() {
 	return (
@@ -18,6 +19,7 @@ export default function App() {
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
 				<Route path="/new-entry" element={<DiaryForm />} />
+				<Route path="/entry/:month/:day/:year" element={<DiaryEntry />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
