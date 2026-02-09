@@ -39,7 +39,12 @@ export default function Editor() {
                 [&_li]:mb-1
                 [&_a]:text-sky-400 [&_a]:underline [&_a]:hover:text-sky-300 border-b border-green-900/60 pb-4"
 			>
-				<EditorContent editor={editor} />
+				<EditorContent
+					editor={editor}
+					onInput={() => {
+						localStorage.setItem("editorContent", editor.getHTML());
+					}}
+				/>
 			</div>
 		</div>
 	);
