@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class Entry {
-  @Prop({ type: String })
+  @Prop({ type: String, ref: 'User' })
   uid: string;
 
   @Prop({ required: true })
