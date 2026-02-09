@@ -12,7 +12,4 @@ export class CreateEntry {
   @IsString()
   @IsNotEmpty()
   content: string;
-
-  @IsEnum(['public', 'private'])
-  visibility: 'public' | 'private';
 }
