@@ -1,18 +1,25 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import type { Entry } from "../interfaces";
+import { useEffect, useState } from "react";
 
 interface UseDiaryHook {
-	createEntry: (
-		title: string,
-		entry: string,
-		date: string,
-		content: string
-	) => void;
+	createEntry: (title: string, date: string, content: string) => void;
+	entryData: Entry | null;
 }
 
-export default function useDiary() {
+export default function useDiary({
+	month,
+	day,
+	year
+}: {
+	month?: string;
+	day?: string;
+	year?: string;
+} = {}): UseDiaryHook {
 	const navigate = useNavigate();
+	const [entryData, setEntryData] = useState<Entry | null>(null);
 
 	const { mutate } = useMutation({
 		mutationFn: async ({
@@ -60,5 +67,21 @@ export default function useDiary() {
 		mutate({ title, date, content });
 	}
 
-	return { createEntry };
+	async function getEntryByDate() {
+		const response = await axios.get(
+			`${import.meta.env.VITE_BACKEND_URL}/entry/${month}/${day}/${year}`,
+			{
+				withCredentials: true
+			}
+		);
+		setEntryData(response.data);
+	}
+
+	useEffect(() => {
+		if (month && day && year) {
+			getEntryByDate();
+		}
+	}, [month, day, year]);
+
+	return { createEntry, entryData };
 }
