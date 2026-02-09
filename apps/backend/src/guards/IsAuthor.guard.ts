@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntryService } from 'src/entry/entry.service';
 import { Entry, EntryDocument } from 'src/schemas/Entry';
+import { EntryDocument as EntryDocumentType } from 'src/types';
 
 @Injectable()
 export class IsAuthorGuard implements CanActivate {
@@ -26,7 +27,7 @@ export class IsAuthorGuard implements CanActivate {
       Date.UTC(Number(year), Number(month) - 1, Number(day)),
     );
 
-    let entry;
+    let entry: EntryDocumentType | null = null;
     if (month && day && year) {
       const { startOfDay, endOfDay } =
         this.entryService.getStartAndEndOfDayUTC(date);
