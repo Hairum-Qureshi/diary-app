@@ -33,8 +33,12 @@ export default function Calendar() {
 					</div>
 
 					<button
-						className="rounded-lg border border-green-900/60 bg-green-950/60 px-3 py-2 text-sm text-zinc-300 hover:border-green-700 transition hover:cursor-pointer"
+						className="rounded-lg border border-green-900/60 bg-green-950/60 px-3 py-2 text-sm text-zinc-300 hover:border-green-700 transition hover:cursor-pointer disabled:cursor-not-allowed disabled:border-green-900/30 disabled:text-green-900/30"
 						onClick={getNextMonth}
+						disabled={
+							currentYear === new Date().getFullYear() &&
+							currentMonth === "December"
+						}
 					>
 						→
 					</button>
