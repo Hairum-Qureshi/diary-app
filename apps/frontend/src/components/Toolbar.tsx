@@ -26,7 +26,10 @@ export default function TipTapEditorToolbar({
 		<div className="flex items-center">
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
-				onClick={() => editor.chain().focus().toggleBold().run()}
+				onClick={() => {
+					editor.chain().focus().toggleBold().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleBold().run()}
 				title="Bold"
 				type="button"
@@ -40,7 +43,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Italic"
-				onClick={() => editor.chain().focus().toggleItalic().run()}
+				onClick={() => {
+					editor.chain().focus().toggleItalic().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleItalic().run()}
 				type="button"
 			>
@@ -53,7 +59,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Strikethrough"
-				onClick={() => editor.chain().focus().toggleStrike().run()}
+				onClick={() => {
+					editor.chain().focus().toggleStrike().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleStrike().run()}
 				type="button"
 			>
@@ -66,7 +75,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Underline"
-				onClick={() => editor.chain().focus().toggleUnderline().run()}
+				onClick={() => {
+					editor.chain().focus().toggleUnderline().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleUnderline().run()}
 				type="button"
 			>
@@ -81,7 +93,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Quote"
-				onClick={() => editor.chain().focus().toggleBlockquote().run()}
+				onClick={() => {
+					editor.chain().focus().toggleBlockquote().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleBlockquote().run()}
 				type="button"
 			>
@@ -97,7 +112,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Bullet list"
-				onClick={() => editor.chain().focus().toggleBulletList().run()}
+				onClick={() => {
+					editor.chain().focus().toggleBulletList().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				disabled={!editor.can().chain().focus().toggleBulletList().run()}
 				type="button"
 			>
@@ -112,7 +130,10 @@ export default function TipTapEditorToolbar({
 			<button
 				className="text-slate-600 ml-3 hover:cursor-pointer text-base"
 				title="Numbered list"
-				onClick={() => editor.chain().focus().toggleOrderedList().run()}
+				onClick={() => {
+					editor.chain().focus().toggleOrderedList().run();
+					localStorage.setItem("editorContent", editor.getHTML());
+				}}
 				type="button"
 			>
 				<FaListOl
