@@ -5,6 +5,7 @@ import { CurrentUser } from 'src/decorators/currentUser.decorator';
 import * as types from 'src/types';
 import { AuthGuard } from '@nestjs/passport';
 import { UseGuards } from '@nestjs/common';
+import { IsAuthorGuard } from 'src/guards/IsAuthor.guard';
 
 @Controller('entry')
 export class EntryController {
@@ -20,7 +21,7 @@ export class EntryController {
   }
 
   @Get(':month/:day/:year')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), IsAuthorGuard)
   getEntryByDate(
     @Param('month') month: string,
     @Param('day') day: string,
