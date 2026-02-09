@@ -17,6 +17,7 @@ interface Entry {
 	uid: string;
 	title: string;
 	content: string;
+	visibility: "private" | "public";
 	createdAt: string;
 }
 
