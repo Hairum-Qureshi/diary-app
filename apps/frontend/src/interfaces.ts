@@ -3,4 +3,13 @@ interface UseGoogleAuthHook {
 	signOut: () => Promise<void>;
 }
 
-export type { UseGoogleAuthHook };
+interface CalendarDayProps {
+	day: number;
+	hasEntry: boolean;
+	currentMonth: string;
+	currentYear: number;
+	getWeekDayOfMonth: (month: string, year: number, day: number) => string;
+	isToday: (month: string, year: number, day: number) => boolean;
+}
+
+export type { UseGoogleAuthHook, CalendarDayProps };
