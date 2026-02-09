@@ -12,4 +12,12 @@ interface CalendarDayProps {
 	isToday: (month: string, year: number, day: number) => boolean;
 }
 
-export type { UseGoogleAuthHook, CalendarDayProps };
+interface Entry {
+	_id: string;
+	uid: string;
+	title: string;
+	content: string;
+	createdAt: string;
+}
+
+export type { UseGoogleAuthHook, CalendarDayProps, Entry };
