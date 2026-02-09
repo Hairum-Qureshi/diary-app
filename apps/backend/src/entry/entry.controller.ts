@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { EntryService } from './entry.service';
 import { CreateEntry } from 'src/DTOs/CreateEntry.dto';
 import { CurrentUser } from 'src/decorators/currentUser.decorator';
@@ -17,5 +17,16 @@ export class EntryController {
     @CurrentUser() user: types.UserPayload,
   ) {
     return this.entryService.createEntry(createEntryDto, user._id);
+  }
+
+  @Get(':month/:day/:year')
+  @UseGuards(AuthGuard())
+  getEntryByDate(
+    @Param('month') month: string,
+    @Param('day') day: string,
+    @Param('year') year: string,
+    @CurrentUser() user: types.UserPayload,
+  ) {
+    return this.entryService.getEntryByDate(month, day, year, user._id);
   }
 }
