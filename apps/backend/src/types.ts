@@ -1,3 +1,12 @@
+type Entry = {
+  _id: string;
+  uid: string;
+  title: string;
+  content: string;
+  visibility: 'public' | 'private';
+  createdAt: Date;
+};
+
 type UserPayload = {
   _id: string;
   firstName: string;
@@ -11,4 +20,6 @@ type AuthRequest = Request & {
   user?: UserPayload;
 };
 
-export type { UserPayload, AuthRequest };
+type EntryDocument = Entry & Document;
+
+export type { UserPayload, AuthRequest, EntryDocument };

@@ -26,24 +26,33 @@ export class IsAuthorGuard implements CanActivate {
       Date.UTC(Number(year), Number(month) - 1, Number(day)),
     );
 
-    const { startOfDay, endOfDay } =
-      this.entryService.getStartAndEndOfDayUTC(date);
+    let entry;
+    if (month && day && year) {
+      const { startOfDay, endOfDay } =
+        this.entryService.getStartAndEndOfDayUTC(date);
 
-    const entry = await this.entryModel.findOne({
-      createdAt: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
-    });
+      entry = await this.entryModel.findOne({
+        createdAt: {
+          $gte: startOfDay,
+          $lt: endOfDay,
+        },
+      });
+    } else {
+      const { entryID } = request.params;
+
+      entry = await this.entryModel.findById(entryID);
+    }
 
     if (!entry) {
       throw new NotFoundException('Entry not found');
     }
 
-    if (entry.uid !== user._id && entry.visibility === 'private') {
-      throw new ForbiddenException('You do not own this entry');
+    if (entry.visibility === 'private') {
+      if (entry.uid !== user._id) {
+        throw new ForbiddenException('You do not own this entry');
+      }
     }
 
-    return true; // return a boolean for success
+    return true;
   }
 }
