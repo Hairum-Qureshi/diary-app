@@ -10,7 +10,7 @@ export class EntryService {
     @InjectModel(Entry.name) private entryModel: Model<EntryDocument>,
   ) {}
 
-  private getStartAndEndOfDayUTC(date: Date) {
+  getStartAndEndOfDayUTC(date: Date) {
     const startOfDay = new Date(date);
     startOfDay.setUTCHours(0, 0, 0, 0);
 
