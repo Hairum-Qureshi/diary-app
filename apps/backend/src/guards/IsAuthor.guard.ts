@@ -48,10 +48,8 @@ export class IsAuthorGuard implements CanActivate {
       throw new NotFoundException('Entry not found');
     }
 
-    if (entry.visibility === 'private') {
-      if (entry.uid !== user._id) {
-        throw new ForbiddenException('You do not own this entry');
-      }
+    if (entry.uid !== user._id) {
+      throw new ForbiddenException('You do not own this entry');
     }
 
     return true;
