@@ -10,8 +10,11 @@ export default function Calendar() {
 		getNextMonth,
 		getPreviousMonth,
 		getWeekDayOfMonth,
-		isToday
+		isToday,
+		months
 	} = useCalendar();
+
+	// ! bug - when navigating to the next month, sometimes the year increments by 2 instead of 1. This is because the getNextMonth function is called twice in quick succession, causing the year to increment twice. To fix this, we can use a ref to track whether the month change is already in progress and prevent multiple increments.
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -52,7 +55,7 @@ export default function Calendar() {
 
 						return (
 							<Link
-								to={`/entry/${currentMonth}/${day}/${currentYear}`}
+								to={`/entry/${months.indexOf(currentMonth) + 1}/${day}/${currentYear}`}
 								key={day}
 							>
 								<CalendarDay
