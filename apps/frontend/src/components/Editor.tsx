@@ -31,7 +31,7 @@ export default function Editor() {
 			? entryData
 				? entryData.content
 				: ""
-			: localStorage.getItem("editorContent") || "" // Load from local storage if not editing an existing entry
+			: ""
 	});
 
 	if (!editor) return null;
@@ -40,11 +40,6 @@ export default function Editor() {
 		// set editor content
 		if (location.pathname.includes("edit") && entryData) {
 			editor.commands.setContent(entryData.content);
-		} else {
-			const savedContent = localStorage.getItem("editorContent");
-			if (savedContent) {
-				editor.commands.setContent(savedContent);
-			}
 		}
 	}, [location.pathname, entryData]);
 
