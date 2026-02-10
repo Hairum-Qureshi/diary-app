@@ -5,8 +5,14 @@ import Underline from "@tiptap/extension-underline"; // only add this if you wan
 import Toolbar from "./Toolbar";
 import "../css/index.css";
 import { Placeholder } from "@tiptap/extensions";
+import { useLocation } from "react-router-dom";
+import useDiary from "../hooks/useDiary";
+import { useEffect } from "react";
 
 export default function Editor() {
+	const location = useLocation();
+	const { entryData } = useDiary();
+
 	const editor = useEditor({
 		extensions: [
 			StarterKit,
@@ -20,10 +26,27 @@ export default function Editor() {
 			}
 		},
 		enablePasteRules: true, // disable Markdown when pasting
-		enableInputRules: true // disable Markdown when typing
+		enableInputRules: true, // disable Markdown when typing
+		content: location.pathname.includes("edit")
+			? entryData
+				? entryData.content
+				: ""
+			: localStorage.getItem("editorContent") || "" // Load from local storage if not editing an existing entry
 	});
 
 	if (!editor) return null;
+
+	useEffect(() => {
+		// set editor content
+		if (location.pathname.includes("edit") && entryData) {
+			editor.commands.setContent(entryData.content);
+		} else {
+			const savedContent = localStorage.getItem("editorContent");
+			if (savedContent) {
+				editor.commands.setContent(savedContent);
+			}
+		}
+	}, [location.pathname, entryData]);
 
 	return (
 		<div className="w-full">
