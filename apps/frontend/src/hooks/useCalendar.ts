@@ -1,6 +1,17 @@
 import { useState } from "react";
 
-export default function useCalendar() {
+interface UseCalendarHook {
+	currentMonth: string;
+	currentYear: number;
+	getDaysInMonth: (month: string, year: number) => number;
+	months: readonly string[];
+	getNextMonth: () => void;
+	getPreviousMonth: () => void;
+	getWeekDayOfMonth: (month: string, year: number, day: number) => string;
+	isToday: (month: string, year: number, day: number) => boolean;
+}
+
+export default function useCalendar(): UseCalendarHook {
 	const months: readonly string[] = [
 		"January",
 		"February",
@@ -41,8 +52,8 @@ export default function useCalendar() {
 			const currentIndex = months.indexOf(prevMonth);
 			const nextIndex = (currentIndex + 1) % months.length;
 
-			if (months[nextIndex] === "January") {
-				setCurrentYear(new Date().getFullYear() + 1);
+			if (nextIndex === 0) {
+				setCurrentYear(prevYear => prevYear + 1);
 			}
 
 			return months[nextIndex];
@@ -54,8 +65,8 @@ export default function useCalendar() {
 			const currentIndex = months.indexOf(prevMonth);
 			const previousIndex = (currentIndex - 1 + months.length) % months.length;
 
-			if (months[previousIndex] === "December") {
-				setCurrentYear(new Date().getFullYear() - 1);
+			if (previousIndex === months.length - 1) {
+				setCurrentYear(prevYear => prevYear - 1);
 			}
 
 			return months[previousIndex];
@@ -86,6 +97,7 @@ export default function useCalendar() {
 		getNextMonth,
 		getPreviousMonth,
 		getWeekDayOfMonth,
-		isToday
+		isToday,
+		months
 	};
 }
