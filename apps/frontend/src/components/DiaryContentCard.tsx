@@ -3,13 +3,15 @@ import type { Entry } from "../interfaces";
 import useDiary from "../hooks/useDiary";
 import { FaLock } from "react-icons/fa";
 import { FaUnlock } from "react-icons/fa6";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function DiaryContentCard({
 	entryData
 }: {
 	entryData: Entry | null;
 }) {
-	const { toggleVisibility, editEntry, deleteEntry } = useDiary();
+	const { toggleVisibility, deleteEntry } = useDiary();
+	const { month, day, year } = useParams();
 
 	const [isPrivate, setIsPrivate] = useState(
 		entryData?.visibility === "private"
@@ -24,6 +26,8 @@ export default function DiaryContentCard({
 	useEffect(() => {
 		if (entryData) setIsPrivate(entryData.visibility === "private");
 	}, [entryData]);
+
+	const navigate = useNavigate();
 
 	// TODO - make word count dynamic but shouldn't count HTML tags in content, maybe use a library to parse HTML and count words in text nodes only
 
@@ -79,13 +83,7 @@ export default function DiaryContentCard({
 					<button
 						className="text-sm text-emerald-400 hover:text-emerald-300 hover:cursor-pointer transition"
 						onClick={() => {
-							if (entryData)
-								editEntry({
-									entryID: entryData._id,
-									title: entryData.title,
-									date: entryData.createdAt,
-									content: entryData.content
-								});
+							navigate(`/entry/${month}/${day}/${year}/edit`);
 						}}
 					>
 						Edit
