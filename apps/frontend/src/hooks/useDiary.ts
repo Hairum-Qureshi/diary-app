@@ -145,7 +145,7 @@ export default function useDiary(): UseDiaryHook {
 				queryKey: ["entry"]
 			});
 
-			const [month, day, year] = entry.data.createdAt
+			const [year, month, day] = entry.data.createdAt
 				.substring(0, 10)
 				.split("-");
 			navigate(`/entry/${month}/${day}/${year}`);
