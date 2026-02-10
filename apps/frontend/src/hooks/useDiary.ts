@@ -1,25 +1,18 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Entry } from "../interfaces";
-import { useEffect, useState } from "react";
 
 interface UseDiaryHook {
 	createEntry: (title: string, date: string, content: string) => void;
 	entryData: Entry | null;
+	toggleVisibility: (entryID: string) => void;
 }
 
-export default function useDiary({
-	month,
-	day,
-	year
-}: {
-	month?: string;
-	day?: string;
-	year?: string;
-} = {}): UseDiaryHook {
+export default function useDiary(): UseDiaryHook {
 	const navigate = useNavigate();
-	const [entryData, setEntryData] = useState<Entry | null>(null);
+	const queryClient = useQueryClient();
+	const { month, day, year } = useParams();
 
 	const { mutate } = useMutation({
 		mutationFn: async ({
@@ -61,27 +54,52 @@ export default function useDiary({
 	});
 
 	function createEntry(title: string, date: string, content: string) {
-		console.log(title, date, content);
 		if (!title || !date || !content) return alert("Please fill in all fields");
 
 		mutate({ title, date, content });
 	}
 
-	async function getEntryByDate() {
-		const response = await axios.get(
-			`${import.meta.env.VITE_BACKEND_URL}/entry/${month}/${day}/${year}`,
-			{
-				withCredentials: true
+	// use useQuery here
+	const { data: entryData } = useQuery({
+		queryKey: ["entry"],
+		queryFn: async () => {
+			try {
+				if (!month || !day || !year) return null;
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/${month}/${day}/${year}`,
+					{
+						withCredentials: true
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error(error);
 			}
-		);
-		setEntryData(response.data);
-	}
-
-	useEffect(() => {
-		if (month && day && year) {
-			getEntryByDate();
 		}
-	}, [month, day, year]);
+	});
 
-	return { createEntry, entryData };
+	const { mutate: toggleVisibility } = useMutation({
+		mutationFn: async (entryID: string) => {
+			try {
+				const response = await axios.patch(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/${entryID}/toggle-visibility`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+
+				return response;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["entry"]
+			});
+		}
+	});
+
+	return { createEntry, entryData, toggleVisibility };
 }
