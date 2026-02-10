@@ -177,6 +177,7 @@ export default function useDiary(): UseDiaryHook {
 			queryClient.invalidateQueries({
 				queryKey: ["entry"]
 			});
+			localStorage.removeItem("entryData");
 			navigate("/");
 		}
 	});
