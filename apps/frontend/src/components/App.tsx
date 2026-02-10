@@ -19,6 +19,7 @@ export default function App() {
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
 				<Route path="/new-entry" element={<DiaryForm />} />
+				<Route path="/entry/:month/:day/:year/edit" element={<DiaryForm />} />
 				<Route path="/entry/:month/:day/:year" element={<DiaryEntry />} />
 				<Route path="/entry/:entryID?shareable=true" element={<DiaryEntry />} />
 				<Route path="*" element={<NotFound />} />
