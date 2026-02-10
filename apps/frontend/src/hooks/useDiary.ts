@@ -7,6 +7,13 @@ interface UseDiaryHook {
 	createEntry: (title: string, date: string, content: string) => void;
 	entryData: Entry | null;
 	toggleVisibility: (entryID: string) => void;
+	editEntry: (args: {
+		entryID: string;
+		title: string;
+		date: string;
+		content: string;
+	}) => void;
+	deleteEntry: (entryID: string) => void;
 }
 
 export default function useDiary(): UseDiaryHook {
@@ -101,5 +108,78 @@ export default function useDiary(): UseDiaryHook {
 		}
 	});
 
-	return { createEntry, entryData, toggleVisibility };
+	const { mutate: editEntry } = useMutation({
+		mutationFn: async ({
+			entryID,
+			title,
+			date,
+			content
+		}: {
+			entryID: string;
+			title: string;
+			date: string;
+			content: string;
+		}) => {
+			try {
+				const response = await axios.patch(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/${entryID}/edit`,
+					{
+						title,
+						date,
+						content
+					},
+					{
+						withCredentials: true
+					}
+				);
+
+				return response;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: entry => {
+			if (!entry) return;
+
+			queryClient.invalidateQueries({
+				queryKey: ["entry"]
+			});
+
+			const [month, day, year] = entry.data.createdAt
+				.substring(0, 10)
+				.split("-");
+			navigate(`/entry/${month}/${day}/${year}`);
+		}
+	});
+
+	const { mutate: deleteEntry } = useMutation({
+		mutationFn: async (entryID: string) => {
+			try {
+				const confirmation = confirm(
+					"Are you sure you want to delete this entry? This action cannot be undone."
+				);
+
+				if (!confirmation) return;
+
+				const response = await axios.delete(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/${entryID}`,
+					{
+						withCredentials: true
+					}
+				);
+
+				return response;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["entry"]
+			});
+			navigate("/");
+		}
+	});
+
+	return { createEntry, entryData, toggleVisibility, editEntry, deleteEntry };
 }
