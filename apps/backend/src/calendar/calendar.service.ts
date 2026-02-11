@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Entry, EntryDocument } from 'src/schemas/Entry';
+import { Entry, EntryDocument } from '../schemas/Entry';
 
 @Injectable()
 export class CalendarService {

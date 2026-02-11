@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { CalendarService } from './calendar.service';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
-import * as types from 'src/types';
+import { CurrentUser } from '../decorators/currentUser.decorator';
+import * as types from '../types';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('calendar')

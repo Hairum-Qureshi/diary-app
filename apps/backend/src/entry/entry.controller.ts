@@ -9,13 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { EntryService } from './entry.service';
-import { CreateEntry } from 'src/DTOs/CreateEntry.dto';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
-import * as types from 'src/types';
+import { CreateEntry } from '../DTOs/CreateEntry.dto';
+import { CurrentUser } from '../decorators/currentUser.decorator';
+import * as types from '../types';
 import { AuthGuard } from '@nestjs/passport';
 import { UseGuards } from '@nestjs/common';
-import { IsAuthorGuard } from 'src/guards/IsAuthor.guard';
-import { EditEntry } from 'src/DTOs/EditEntry.dto';
+import { IsAuthorGuard } from '../guards/IsAuthor.guard';
+import { EditEntry } from '../DTOs/EditEntry.dto';
 
 @Controller('entry')
 export class EntryController {

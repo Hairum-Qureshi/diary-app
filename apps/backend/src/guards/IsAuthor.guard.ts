@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { EntryService } from 'src/entry/entry.service';
-import { Entry, EntryDocument } from 'src/schemas/Entry';
-import { EntryDocument as EntryDocumentType } from 'src/types';
+import { EntryService } from '../entry/entry.service';
+import { Entry, EntryDocument } from '../schemas/Entry';
+import { EntryDocument as EntryDocumentType } from '../types';
 
 @Injectable()
 export class IsAuthorGuard implements CanActivate {

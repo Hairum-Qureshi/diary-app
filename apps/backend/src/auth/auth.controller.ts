@@ -11,9 +11,9 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 import express from 'express';
 import type { Response, CookieOptions } from 'express';
-import { BearerToken } from 'src/decorators/bearerToken.decorator';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
-import * as types from 'src/types';
+import { BearerToken } from '../decorators/bearerToken.decorator';
+import { CurrentUser } from '../decorators/currentUser.decorator';
+import * as types from '../types';
 
 @Controller('api/auth')
 export class AuthController {

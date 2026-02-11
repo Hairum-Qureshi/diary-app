@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateEntry } from 'src/DTOs/CreateEntry.dto';
-import { EditEntry } from 'src/DTOs/EditEntry.dto';
-import { Entry, EntryDocument } from 'src/schemas/Entry';
-import { EntriesArchive } from 'src/types';
+import { CreateEntry } from '../DTOs/CreateEntry.dto';
+import { EditEntry } from '../DTOs/EditEntry.dto';
+import { Entry, EntryDocument } from '../schemas/Entry';
+import { EntriesArchive } from '../types';
 
 @Injectable()
 export class EntryService {
@@ -140,5 +140,5 @@ export class EntryService {
   async deleteAllEntries(uid: string) {
     await this.entryModel.deleteMany({ uid });
     return { success: true };
-  } 
+  }
 }

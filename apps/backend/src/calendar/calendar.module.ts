@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { CalendarService } from './calendar.service';
 import { CalendarController } from './calendar.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Entry, EntrySchema } from 'src/schemas/Entry';
-import { AuthModule } from 'src/auth/auth.module';
+import { Entry, EntrySchema } from '../schemas/Entry';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   providers: [CalendarService],
