@@ -6,7 +6,7 @@ export default function Landing() {
 	const { data: currUserData } = useCurrentUser();
 
 	return (
-		<div className="relative h-[calc(100vh-2.5rem)] bg-zinc-950 text-white overflow-hidden flex flex-col items-center justify-center px-6">
+		<div className="relative h-[calc(100vh-3.5rem)] bg-zinc-950 text-white overflow-hidden flex flex-col items-center justify-center px-6">
 			{/* Subtle green background glow */}
 			<div className="pointer-events-none absolute inset-0">
 				<div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[120px]" />
