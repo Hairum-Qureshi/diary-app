@@ -144,8 +144,6 @@ The following features are planned or under consideration:
 
 - **Tagging System** Add optional tags to entries for thematic organization beyond chronology.
 
-- **Drafts and Autosave** Support unsaved drafts and automatic saving while writing.
-
 - **Improved Analytics** Visual insights into writing habits, such as streaks or activity over time.
 
 - **AI Integration** AI-assisted querying and reflection over your entire diary archive.
