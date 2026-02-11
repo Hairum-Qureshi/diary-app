@@ -1,7 +1,8 @@
+import YearCard from "../components/YearCard";
 import useCalendar from "../hooks/useCalendar";
 
 export default function Archive() {
-	const { months } = useCalendar();
+	const { allEntries } = useCalendar();
 
 	// TODO - add search functionality
 	// TODO - add logic for highlighting months that have entries and also showing the number of entries for each month, maybe with a badge or something
@@ -27,49 +28,24 @@ export default function Archive() {
 				</div>
 
 				{/* Years */}
-				<div className="space-y-8">
-					{/* Year Card */}
-					<div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-6 space-y-4">
-						<h2 className="text-xl font-medium text-green-300">2025</h2>
-
-						<div className="flex flex-wrap gap-3">
-							{months.map(month => (
-								<button
-									key={month}
-									className="px-4 py-2 rounded-full text-sm
-									bg-neutral-800 text-neutral-300
-									border border-neutral-700
-									hover:bg-green-900/30 hover:text-green-300
-									hover:border-green-700
-									transition-colors hover:cursor-pointer"
-								>
-									{month}
-								</button>
+				{allEntries?.postedYears?.length > 0 ? (
+					<div className="space-y-6">
+						{allEntries.postedYears
+							.sort((a: number, b: number) => b - a)
+							.map((year: number) => (
+								<YearCard
+									key={year}
+									year={year}
+									entryMonths={
+										allEntries.archives.find(archive => archive.year === year)
+											?.months || []
+									}
+								/>
 							))}
-						</div>
 					</div>
-
-					{/* Another Year */}
-					<div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-6 space-y-4">
-						<h2 className="text-xl font-medium text-green-300">2024</h2>
-
-						<div className="flex flex-wrap gap-3">
-							{months.map(month => (
-								<button
-									key={month}
-									className="px-4 py-2 rounded-full text-sm
-									bg-neutral-800 text-neutral-400
-									border border-neutral-700
-									hover:bg-green-900/30 hover:text-green-300
-									hover:border-green-700
-									transition-colors hover:cursor-pointer"
-								>
-									{month}
-								</button>
-							))}
-						</div>
-					</div>
-				</div>
+				) : (
+					<p className="text-sm text-neutral-400">No entries found.</p>
+				)}
 			</div>
 		</div>
 	);
