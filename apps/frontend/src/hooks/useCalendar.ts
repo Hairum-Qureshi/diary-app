@@ -1,14 +1,23 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 
 interface UseCalendarHook {
 	currentMonth: string;
 	currentYear: number;
 	getDaysInMonth: (month: string, year: number) => number;
-	months: readonly string[];
 	getNextMonth: () => void;
 	getPreviousMonth: () => void;
 	getWeekDayOfMonth: (month: string, year: number, day: number) => string;
 	isToday: (month: string, year: number, day: number) => boolean;
+	months: readonly string[];
+	monthEntriesData: [
+		{
+			_id: string;
+			title: string;
+			createdAt: string;
+		}
+	];
 }
 
 export default function useCalendar(): UseCalendarHook {
@@ -37,6 +46,8 @@ export default function useCalendar(): UseCalendarHook {
 		"Saturday"
 	];
 
+	const queryClient = useQueryClient();
+
 	const [currentMonth, setCurrentMonth] = useState(
 		months[new Date().getMonth()]
 	);
@@ -57,6 +68,10 @@ export default function useCalendar(): UseCalendarHook {
 			}
 
 			return months[nextIndex];
+		});
+
+		queryClient.invalidateQueries({
+			queryKey: ["entries", currentMonth, currentYear]
 		});
 	}
 
@@ -89,15 +104,33 @@ export default function useCalendar(): UseCalendarHook {
 		);
 	}
 
+	const { data: monthEntriesData } = useQuery({
+		queryKey: ["entries", currentMonth, currentYear],
+		queryFn: async () => {
+			try {
+				if (!currentMonth || !currentYear) return null;
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_URL}/calendar/entries/${months.indexOf(currentMonth) + 1}/${currentYear}`,
+					{
+						withCredentials: true
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	});
+
 	return {
 		currentMonth,
 		currentYear,
 		getDaysInMonth,
-		months,
 		getNextMonth,
 		getPreviousMonth,
 		getWeekDayOfMonth,
 		isToday,
-		months
+		months,
+		monthEntriesData
 	};
 }
