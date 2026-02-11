@@ -136,4 +136,9 @@ export class EntryService {
 
     return { postedYears, archives };
   }
+
+  async deleteAllEntries(uid: string) {
+    await this.entryModel.deleteMany({ uid });
+    return { success: true };
+  } 
 }
