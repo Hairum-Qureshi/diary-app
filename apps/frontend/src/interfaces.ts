@@ -10,6 +10,7 @@ interface CalendarDayProps {
 	currentYear: number;
 	getWeekDayOfMonth: (month: string, year: number, day: number) => string;
 	isToday: (month: string, year: number, day: number) => boolean;
+	title: string;
 }
 
 interface Entry {
