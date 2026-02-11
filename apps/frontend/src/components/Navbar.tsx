@@ -14,11 +14,6 @@ export default function Navbar() {
 					</a>
 				</li>
 				<li className="inline-block mx-4">
-					<a href="/dashboard" className="hover:text-emerald-500 transition">
-						Dashboard
-					</a>
-				</li>
-				<li className="inline-block mx-4">
 					<a href="/profile" className="hover:text-emerald-500 transition">
 						Profile
 					</a>
