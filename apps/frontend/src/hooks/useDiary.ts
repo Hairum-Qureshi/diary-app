@@ -19,6 +19,7 @@ interface UseDiaryHook {
 export default function useDiary(): UseDiaryHook {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
+
 	const { month, day, year } = useParams();
 
 	const { mutate } = useMutation({
@@ -66,7 +67,6 @@ export default function useDiary(): UseDiaryHook {
 		mutate({ title, date, content });
 	}
 
-	// use useQuery here
 	const { data: entryData } = useQuery({
 		queryKey: ["entry"],
 		queryFn: async () => {
@@ -81,6 +81,7 @@ export default function useDiary(): UseDiaryHook {
 				return response.data;
 			} catch (error) {
 				console.error(error);
+				return null;
 			}
 		}
 	});
