@@ -8,8 +8,10 @@ import Navbar from "./Navbar";
 import Calendar from "../pages/Calendar";
 import DiaryForm from "../pages/DiaryForm";
 import DiaryEntry from "../pages/DiaryEntry";
+import Archive from "../pages/Archive";
 
 export default function App() {
+	// TODO - wrap certain routes with a middleware auth component 
 	return (
 		<BrowserRouter>
 			<Navbar />
@@ -19,6 +21,7 @@ export default function App() {
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
 				<Route path="/new-entry" element={<DiaryForm />} />
+				<Route path="/all-entries" element={<Archive />} />
 				<Route path="/entry/:month/:day/:year/edit" element={<DiaryForm />} />
 				<Route path="/entry/:month/:day/:year" element={<DiaryEntry />} />
 				<Route path="/entry/:entryID?shareable=true" element={<DiaryEntry />} />
