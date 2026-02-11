@@ -2,8 +2,13 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import type { UseCalendarHook } from "../interfaces";
+import { useSearchParams } from "react-router-dom";
 
 export default function useCalendar(): UseCalendarHook {
+	const [searchParams] = useSearchParams();
+
+	console.log(searchParams.get("month"), searchParams.get("year"));
+
 	const months: readonly string[] = [
 		"January",
 		"February",
@@ -32,9 +37,15 @@ export default function useCalendar(): UseCalendarHook {
 	const queryClient = useQueryClient();
 
 	const [currentMonth, setCurrentMonth] = useState(
-		months[new Date().getMonth()]
+		searchParams.get("month")
+			? months[parseInt(searchParams.get("month")!) - 1]
+			: months[new Date().getMonth()]
 	);
-	const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+	const [currentYear, setCurrentYear] = useState(
+		searchParams.get("year")
+			? parseInt(searchParams.get("year")!)
+			: new Date().getFullYear()
+	);
 
 	function getDaysInMonth(month: string, year: number): number {
 		const monthIndex = months.indexOf(month);
