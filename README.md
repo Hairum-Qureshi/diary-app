@@ -1,332 +1,163 @@
-# NestJS + React + Vite + Tailwind + Turbo (with Google Auth)
-
-This repository is a **full-stack monorepo template** using **npm workspaces** and **Turborepo** to manage a React frontend and a NestJS backend in a single repository.
-
-It is based on a minimal monorepo foundation, with **Google authentication pre-wired using Firebase** so you don’t have to build auth plumbing from scratch.
-
-This is a **template**, not a production-ready system.
+Here’s the revised README with a clear, concrete **Running Locally** section added. I kept the focus on _what the app is_, but made the setup instructions explicit and copy-pasteable without drifting into internal implementation details.
 
 ---
 
-## What This Template Is
+# Diary App
 
-This template provides:
+## Overview
 
-* A correct, minimal **monorepo setup**
-* Clear separation of frontend and backend concerns
-* Centralized dependency management
-* Coordinated development scripts
-* **Working Google OAuth (Firebase) across frontend and backend**
+Diary is a personal, full-stack journaling application designed for long-term reflection and organization. It gives users a private space to write, revisit, and manage diary entries over time, with an emphasis on chronological structure rather than feeds, likes, or social features.
 
-Authentication is included, but only to the extent required to:
+At its core, the app treats writing as an ongoing habit. Entries are organized by year and month, allowing users to easily see when they were most active, jump back to specific periods of their life, and navigate their writing history without friction.
 
-* Sign users in with Google on the frontend
-* Verify and trust those users on the backend
-
-Everything else remains intentionally unopinionated.
+The project is built as a monorepo using modern web tooling and reflects a preference for maintainable architecture, clear separation of concerns, and a simple but intentional user experience.
 
 ---
 
-## What This Template Is *Not*
+## What This App Does
 
-This template does **not** try to be a full application starter.
+Diary allows users to:
 
-It does **not** include:
+- Create new diary entries
+- Edit existing entries
+- Share public entries
+- Delete entries they no longer want to keep
+- Browse entries grouped by **year**
+- See which **months** within a year contain entries
+- Navigate their writing history chronologically rather than as a flat list
 
-* User roles or permissions
-* Auth-based authorization rules
-* Session persistence strategies
-* Database schemas or migrations
-* API clients or shared domain models
-* Deployment, Docker, or CI/CD
-
-Those decisions are left to the user.
-
----
-
-## Repository Structure
-
-```
-.
-├── apps/
-│   ├── backend/          # NestJS backend (Firebase Admin + JWT + Mongo)
-│   └── frontend/         # React + Vite + Tailwind (Firebase client)
-├── packages/             # Optional shared packages (empty by default)
-├── package.json          # Root workspace + Turbo configuration
-├── package-lock.json     # Single lockfile for the entire monorepo
-├── turbo.json            # Turbo task pipeline
-└── README.md
-```
-
-### Key Structural Notes
-
-* This **is a monorepo**
-* Dependency management is centralized at the **root**
-* Each app remains a **standalone project**
-* No shared code is assumed
-* Shared packages are optional and explicit
+The interface is intentionally minimal. There are no social feeds, no algorithms, and no engagement-driven mechanics. The app is focused on writing, reviewing, and maintaining a personal archive over time.
 
 ---
 
-## Tech Stack
+## Design Philosophy
 
-### Backend (`apps/backend`)
+- **Chronology over feeds** Entries are organized by time, not engagement. The year → month structure mirrors how people naturally remember periods of their lives.
 
-* NestJS
-* TypeScript
-* Firebase Admin SDK
-* JWT-based session tokens
-* MongoDB (wired, no schemas assumed)
+- **Private by default** This is a diary, not a social platform. The app is designed around individual use rather than constant sharing.
 
-### Frontend (`apps/frontend`)
-
-* React
-* Vite
-* TailwindCSS
-* TypeScript
-* Firebase Client SDK (Google sign-in)
-
-### Tooling
-
-* npm workspaces
-* Turborepo
+- **Simple interactions, solid foundations** Core CRUD functionality is implemented carefully, with an emphasis on correctness, clarity, and future extensibility.
 
 ---
 
-## Prerequisites
+## Tech Stack (High-Level)
 
-You need:
+This project is a monorepo managed with Turbo and includes:
 
-* Node.js (LTS recommended)
-* npm (v7+ for workspaces)
+- **Backend**: Nest.js
+- **Frontend**: React.js with TailwindCSS
+- **Database**: MongoDB
+- **Authentication**: Google Firebase (Google Auth)
 
----
-
-## Installation
-
-From the **repository root**:
-
-```bash
-npm install
-```
-
-This installs dependencies for **all workspace packages** and generates a **single `package-lock.json`**.
-
-Do not run `npm install` inside individual apps.
+The stack was chosen to support a clean API layer, a responsive UI, and a scalable data model without unnecessary complexity.
 
 ---
 
-## Development
+## Running Locally
 
-Run all development servers concurrently:
+### Prerequisites
 
-```bash
-npm run dev
-```
-
-This uses Turbo to:
-
-* Start the NestJS backend
-* Start the Vite frontend
-* Stream logs with app prefixes
-
-### Default Ports
-
-* Backend: `http://localhost:3000`
-* Frontend: `http://localhost:5173`
+- Node.js (LTS recommended)
+- MongoDB instance (local or hosted)
+- A Google Firebase project with Google Authentication enabled
 
 ---
 
-## Environment Variables & Firebase Setup
+### 1. Firebase Setup (Google Auth)
 
-This template **will not start** unless required environment variables are present and valid.
-
-Both frontend and backend rely on Firebase, but for **different purposes**:
-
-* Frontend → Firebase **client SDK**
-* Backend → Firebase **Admin SDK**
-
----
-
-## Common Startup Error (Firebase Admin)
-
-If the backend crashes with:
-
-```
-SyntaxError: "undefined" is not valid JSON
-    at JSON.parse (<anonymous>)
-    at firebase.module.ts
-```
-
-### What’s happening
-
-The backend expects a Firebase **service account JSON** via:
-
-```ts
-JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-```
-
-If the variable is missing, misnamed, or malformed, the process crashes immediately.
+1. Go to the Firebase Console and create a new project.
+2. In **Authentication → Sign-in method**, enable **Google** as a provider.
+3. In **Project Settings**, register a **Web App** to obtain frontend configuration values.
+4. Download a **Service Account key**:
+   - Go to **Project Settings → Service Accounts**
+   - Generate a new private key
+   - Save the JSON file securely (this will be used by the backend)
 
 ---
 
-### Fix
+### 2. Frontend Environment Variables
 
-You **must** provide a valid Firebase service account JSON via the
-`FIREBASE_SERVICE_ACCOUNT` environment variable, wrapped in **single quotes**.
+Create a `.env` file in the frontend app directory and add:
+
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_BACKEND_URL=
+```
+
+These values come from the Firebase Web App configuration, except for `VITE_BACKEND_URL`, which should point to your local backend (for example, `http://localhost:3000`).
 
 ---
 
-## Another Common Startup Error (MongoDB)
+### 3. Backend Environment Variables
 
-You may also see an error similar to:
-
-```
-MongoParseError: URI must be provided
-```
-
-or:
+Create a `.env` file in the backend app directory and add:
 
 ```
-MongooseError: The `uri` parameter to `openUri()` must be a string
-```
-
-### What this means
-
-This error simply means that **no MongoDB connection string was provided**.
-
-The backend expects a MongoDB URI via the `MONGO_URI` environment variable.
-If it’s missing, empty, or misspelled, Nest will fail during startup.
-
-This error is **not related to Firebase or Google Auth**.
-
----
-
-### Fix
-
-Make sure your backend `.env` file includes:
-
-```env
-MONGO_URI=mongodb_connection_string
-```
-
-This can be:
-
-* A local MongoDB instance
-
-  ```
-  mongodb://localhost:27017/your-db-name
-  ```
-
-* Or a hosted provider (e.g. MongoDB Atlas)
-
-Once `MONGO_URI` is defined, the backend should start normally.
-
-## Backend Environment Variables
-
-Create a `.env` file in `apps/backend`:
-
-```env
-JWT_SECRET=your_jwt_secret_here
-JWT_EXPIRES=604800000
+JWT_SECRET=
+JWT_EXPIRES=
 PORT=3000
 NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
-MONGO_URI=mongodb_connection_string
-FIREBASE_SERVICE_ACCOUNT='{ ... }'
+MONGO_URI=
+FIREBASE_SERVICE_ACCOUNT=
 ```
 
-### Important Notes
+Notes:
 
-* `JWT_EXPIRES` must be a **number**, not a string
-* `NODE_ENV` must be `development` for local dev
-* `FIREBASE_SERVICE_ACCOUNT` must:
+- `JWT_EXPIRES` should be an integer value.
+- `MONGO_URI` should point to your MongoDB instance.
+- `FIREBASE_SERVICE_ACCOUNT` should contain the Firebase service account credentials (either as a JSON string or a path, depending on implementation).
 
-  * Be valid JSON
-  * Be wrapped in **single quotes**
-  * Contain the **entire service account object**
+---
 
-Example (truncated):
+### 4. Install Dependencies
 
-```env
-FIREBASE_SERVICE_ACCOUNT='{
-  "type": "service_account",
-  "project_id": "your-project-id",
-  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk@your-project-id.iam.gserviceaccount.com"
-}'
+From the root of the monorepo:
+
+```
+npm install
 ```
 
-⚠️ **Never commit this value.**
-It grants full admin access to your Firebase project.
-
 ---
 
-## Frontend Environment Variables
+### 5. Run the App
 
-Create a `.env` file in `apps/frontend`:
+From the `apps` directory:
 
-```env
-VITE_BACKEND_BASE_URL=http://localhost:3000
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+```
+npm run dev
 ```
 
-These values come from your **Firebase Web App configuration**, not the service account.
+This will start both the frontend and backend in development mode using Turbo.
 
 ---
 
-## Firebase Project Setup (Required)
+## Planned Features
 
-### 1. Create a Firebase Project
+The following features are planned or under consideration:
 
-* Firebase Console → Add project
+- **Gallery / Media Attachments** Attach images to diary entries and browse them in a dedicated gallery view.
 
-### 2. Enable Google Authentication
+- **Search and Filtering** Search entries by keywords, dates, or time ranges.
 
-* Authentication → Sign-in method → Enable **Google**
+- **Tagging System** Add optional tags to entries for thematic organization beyond chronology.
 
-### 3. Create a Firebase Web App
+- **Drafts and Autosave** Support unsaved drafts and automatic saving while writing.
 
-* Project Settings → Web app
-* Copy config into frontend `.env`
+- **Improved Analytics** Visual insights into writing habits, such as streaks or activity over time.
 
-### 4. Generate a Service Account (Backend)
+- **AI Integration** AI-assisted querying and reflection over your entire diary archive.
 
-* Project Settings → Service accounts
-* Generate new private key
-* Paste JSON into `FIREBASE_SERVICE_ACCOUNT`
-* Wrap in single quotes
+These features are intentionally deferred to keep the core experience focused and stable before expanding functionality.
 
 ---
 
-## App Independence (Still True)
+## Status
 
-Even with auth included:
-
-* Frontend and backend are **not tightly coupled**
-* They can be deployed independently
-* No shared packages are required
-* API communication is explicit
-
-Auth establishes **trust**, not architectural dependency.
-
----
-
-## Turbo Configuration
-
-Turbo operates on **script names**, not commands.
-
-If an app doesn’t define `dev`, `build`, or `lint`, Turbo skips it.
-
-Turbo is used only for:
-
-* Task orchestration
-* Caching
-* Parallel execution
-
-It does not enforce architecture.
+This project is actively developed and serves both as a personal tool and a learning exercise in building a structured, full-stack application with modern tooling. The emphasis is on long-term maintainability rather than rapid feature churn.
