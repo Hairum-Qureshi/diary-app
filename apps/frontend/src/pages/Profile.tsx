@@ -1,13 +1,16 @@
 import ProfileRow from "../components/ProfileRow";
+import useAccount from "../hooks/useAccount";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useDiary from "../hooks/useDiary";
 
 export default function Profile() {
 	const { data: currUser } = useCurrentUser();
+	const { deleteAllEntries } = useDiary();
+	const { deleteUserAccount } = useAccount();
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-white flex justify-center px-6 py-16">
 			<div className="w-full max-w-2xl space-y-10">
-				{/* Header */}
 				<div className="flex items-center gap-6">
 					<img
 						src={currUser?.profilePicture}
@@ -20,8 +23,6 @@ export default function Profile() {
 						<p className="text-zinc-400 text-sm">Your personal information</p>
 					</div>
 				</div>
-
-				{/* Info card */}
 				<div className="rounded-xl border border-green-800 bg-green-900/10 p-6 space-y-4">
 					<ProfileRow
 						label="Full name"
@@ -37,8 +38,6 @@ export default function Profile() {
 						})}
 					/>
 				</div>
-
-				{/* Delete all entries */}
 				<div className="rounded-xl border border-amber-900/40 bg-amber-950/30 p-6 space-y-4">
 					<h2 className="text-lg font-semibold text-amber-400">
 						Delete all entries
@@ -48,7 +47,6 @@ export default function Profile() {
 						This will permanently delete all of your diary entries. Your account
 						and profile information will remain.
 					</p>
-
 					<button
 						className="
 							mt-2 inline-flex items-center justify-center
@@ -62,20 +60,17 @@ export default function Profile() {
 							active:scale-[0.98]
 							hover:cursor-pointer
 						"
+						onClick={deleteAllEntries}
 					>
 						Delete all entries
 					</button>
 				</div>
-
-				{/* Delete account */}
 				<div className="rounded-xl border border-red-900/40 bg-red-950/30 p-6 space-y-4">
 					<h2 className="text-lg font-semibold text-red-400">Delete account</h2>
-
 					<p className="text-sm text-red-300/80 leading-relaxed">
 						This will permanently delete your account and all diary entries.
 						This action cannot be undone.
 					</p>
-
 					<button
 						className="
 							mt-2 inline-flex items-center justify-center
@@ -89,6 +84,7 @@ export default function Profile() {
 							active:scale-[0.98]
 							hover:cursor-pointer
 						"
+						onClick={deleteUserAccount}
 					>
 						Delete my account
 					</button>
