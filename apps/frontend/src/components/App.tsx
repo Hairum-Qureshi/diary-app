@@ -9,6 +9,7 @@ import Calendar from "../pages/Calendar";
 import DiaryForm from "../pages/DiaryForm";
 import DiaryEntry from "../pages/DiaryEntry";
 import Archive from "../pages/Archive";
+import Profile from "../pages/Profile";
 
 export default function App() {
 	// TODO - wrap certain routes with a middleware auth component
@@ -20,6 +21,7 @@ export default function App() {
 				<Route path="/about" element={<About />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
+				<Route path="/profile" element={<Profile />} />
 				<Route
 					path="/calendar?month=:month&year=:year"
 					element={<Calendar />}
