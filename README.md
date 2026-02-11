@@ -1,7 +1,3 @@
-Here’s the revised README with a clear, concrete **Running Locally** section added. I kept the focus on _what the app is_, but made the setup instructions explicit and copy-pasteable without drifting into internal implementation details.
-
----
-
 # Diary App
 
 ## Overview
