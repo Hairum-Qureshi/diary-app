@@ -2,14 +2,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "../pages/Landing";
 import About from "../pages/About";
 import NotFound from "../pages/NotFound";
-import Dashboard from "../pages/Dashboard";
-import "../css/index.css";
 import Navbar from "./Navbar";
 import Calendar from "../pages/Calendar";
 import DiaryForm from "../pages/DiaryForm";
 import DiaryEntry from "../pages/DiaryEntry";
 import Archive from "../pages/Archive";
 import Profile from "../pages/Profile";
+import "../css/index.css";
 
 export default function App() {
 	// TODO - wrap certain routes with a middleware auth component
@@ -19,7 +18,6 @@ export default function App() {
 			<Routes>
 				<Route path="/" element={<Landing />} />
 				<Route path="/about" element={<About />} />
-				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route
