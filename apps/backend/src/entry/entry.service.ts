@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateEntry } from 'src/DTOs/CreateEntry.dto';
+import { EditEntry } from 'src/DTOs/EditEntry.dto';
 import { Entry, EntryDocument } from 'src/schemas/Entry';
+import { EntriesArchive } from 'src/types';
 
 @Injectable()
 export class EntryService {
@@ -38,6 +40,7 @@ export class EntryService {
     const createdEntry = new this.entryModel({
       ...createEntryDto,
       uid,
+      createdAt: date,
     });
 
     return createdEntry.save();
@@ -61,5 +64,76 @@ export class EntryService {
         })
         .select('-__v')) || []
     );
+  }
+
+  async toggleEntryVisibility(entryID: string, uid: string) {
+    const entry = await this.entryModel.findOne({ _id: entryID, uid });
+
+    if (!entry) return null;
+
+    entry.visibility = entry.visibility === 'private' ? 'public' : 'private';
+    await entry.save();
+
+    return entry;
+  }
+
+  async getShareableEntry(entryID: string) {
+    const entry = await this.entryModel.findOne({
+      _id: entryID,
+      visibility: 'public',
+    });
+
+    if (!entry) return null;
+    return entry;
+  }
+
+  async deleteEntry(entryID: string, uid: string) {
+    const entry = await this.entryModel.findOneAndDelete({ _id: entryID, uid });
+
+    if (!entry) return null;
+
+    return { success: true };
+  }
+
+  async editEntry(entryID: string, uid: string, editEntryDto: EditEntry) {
+    const entry = await this.entryModel.findOne({ _id: entryID, uid });
+
+    if (!entry) return null;
+
+    entry.title = editEntryDto.title;
+    entry.createdAt = new Date(editEntryDto.date);
+    entry.content = editEntryDto.content;
+
+    await entry.save();
+
+    return entry;
+  }
+
+  async getAllEntries(uid: string) {
+    const entries = await this.entryModel.find({ uid }).select('-__v');
+
+    const postedYears: number[] = [];
+    const archives: EntriesArchive[] = [];
+
+    entries.forEach((entry) => {
+      const currYear = entry.createdAt.getUTCFullYear();
+      const exists = archives.some(
+        (dateArchiveObj: EntriesArchive) => dateArchiveObj.year === currYear,
+      );
+      if (!exists) {
+        postedYears.push(currYear);
+        const months = [
+          ...new Set(
+            entries
+              .filter((e) => e.createdAt.getUTCFullYear() === currYear)
+              .map((e) => e.createdAt.getUTCMonth() + 1),
+          ),
+        ];
+
+        archives.push({ year: currYear, months });
+      }
+    });
+
+    return { postedYears, archives };
   }
 }
