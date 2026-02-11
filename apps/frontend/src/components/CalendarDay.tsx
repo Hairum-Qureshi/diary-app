@@ -6,7 +6,8 @@ export default function CalendarDay({
 	currentMonth,
 	currentYear,
 	getWeekDayOfMonth,
-	isToday
+	isToday,
+	title
 }: CalendarDayProps) {
 	return (
 		<div
@@ -27,9 +28,7 @@ export default function CalendarDay({
 			<div className="flex-1">
 				{hasEntry ? (
 					<>
-						<p className="text-sm text-zinc-200">
-							Felt quieter than usual today. Needed that.
-						</p>
+						<p className="text-sm text-zinc-200">{title}</p>
 						<p className="mt-1 text-xs text-zinc-500">11:42 PM</p>
 					</>
 				) : (
