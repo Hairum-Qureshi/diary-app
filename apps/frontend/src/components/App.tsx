@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
+import Landing from "../pages/Landing";
 import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Dashboard from "../pages/Dashboard";
@@ -16,11 +16,14 @@ export default function App() {
 		<BrowserRouter>
 			<Navbar />
 			<Routes>
-				<Route path="/" element={<Home />} />
+				<Route path="/" element={<Landing />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
-				<Route path="/calendar?month=:month&year=:year" element={<Calendar />} />
+				<Route
+					path="/calendar?month=:month&year=:year"
+					element={<Calendar />}
+				/>
 				<Route path="/new-entry" element={<DiaryForm />} />
 				<Route path="/all-entries" element={<Archive />} />
 				<Route path="/entry/:month/:day/:year/edit" element={<DiaryForm />} />
