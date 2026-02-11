@@ -18,6 +18,13 @@ interface UseCalendarHook {
 			createdAt: string;
 		}
 	];
+	allEntries: {
+		postedYears: number[];
+		archives: {
+			year: number;
+			months: number[];
+		}[];
+	};
 }
 
 export default function useCalendar(): UseCalendarHook {
@@ -122,6 +129,23 @@ export default function useCalendar(): UseCalendarHook {
 		}
 	});
 
+	const { data: allEntries } = useQuery({
+		queryKey: ["all-entries"],
+		queryFn: async () => {
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/all`,
+					{
+						withCredentials: true
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	});
+
 	return {
 		currentMonth,
 		currentYear,
@@ -131,6 +155,7 @@ export default function useCalendar(): UseCalendarHook {
 		getWeekDayOfMonth,
 		isToday,
 		months,
-		monthEntriesData
+		monthEntriesData,
+		allEntries
 	};
 }
