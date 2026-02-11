@@ -11,7 +11,8 @@ export default function Calendar() {
 		getPreviousMonth,
 		getWeekDayOfMonth,
 		isToday,
-		months
+		months,
+		monthEntriesData
 	} = useCalendar();
 
 	// ! bug - when navigating to the next month, sometimes the year increments by 2 instead of 1. This is because the getNextMonth function is called twice in quick succession, causing the year to increment twice. To fix this, we can use a ref to track whether the month change is already in progress and prevent multiple increments.
@@ -51,7 +52,12 @@ export default function Calendar() {
 				<div className="rounded-xl border border-green-900/60 bg-green-950/50 divide-y divide-green-900/40">
 					{[...Array(getDaysInMonth(currentMonth, currentYear))].map((_, i) => {
 						const day = i + 1;
-						const hasEntry = day === 3 || day === 8 || day === 14;
+						let title = "";
+						const hasEntry = monthEntriesData?.some(entry => {
+							const entryDay = entry.createdAt.split("T")[0].split("-")[2];
+							title = entry.title;
+							return parseInt(entryDay) === day;
+						});
 
 						return (
 							<Link
@@ -65,6 +71,7 @@ export default function Calendar() {
 									currentYear={currentYear}
 									getWeekDayOfMonth={getWeekDayOfMonth}
 									isToday={isToday}
+									title={title}
 								/>
 							</Link>
 						);
