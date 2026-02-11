@@ -25,12 +25,12 @@ export default function YearCard({
                         hover:border-green-700
                         transition-colors ${entryMonths.includes(months.indexOf(month) + 1) ? "bg-green-900/60 text-green-300 border-green-700 hover:cursor-pointer " : "bg-neutral-800 border-neutral-700 text-neutral-300 hover:cursor-not-allowed hover:bg-neutral-800/60 hover:text-neutral-300 hover:border-neutral-700"}`}
 						onClick={() => {
-							if (!entryMonths.includes(months.indexOf(month))) return;
+							if (!entryMonths.includes(months.indexOf(month) + 1)) return;
 							navigate(
 								`/calendar?month=${months.indexOf(month) + 1}&year=${year}`
 							);
 						}}
-						disabled={!entryMonths.includes(months.indexOf(month))}
+						disabled={!entryMonths.includes(months.indexOf(month) + 1)}
 					>
 						{month}
 					</button>
