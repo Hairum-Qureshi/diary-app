@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import useDiary from "../hooks/useDiary";
 
 export default function DiaryForm() {
-	const { createEntry, entryData } = useDiary();
+	const { createEntry, entryData, editEntry } = useDiary();
 	const [title, setTitle] = useState(entryData ? entryData.title : "");
 	const [date, setDate] = useState(
 		entryData ? entryData.createdAt.split("T")[0] : ""
@@ -18,6 +18,8 @@ export default function DiaryForm() {
 			localStorage.setItem("editorContent", entryData.content); // Load content into local storage for editing
 		}
 	}, [location.pathname, entryData]);
+
+	// ! I think there's an issue where if you paste content in the editor, it doesn't get saved to local storage, so when you submit the form, the form thinks that the content (which is required) is missing. I need to figure out a way to ensure that any changes made in the editor, including pasting content, are saved to local storage so that they can be included when creating or editing an entry.
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -113,12 +115,29 @@ export default function DiaryForm() {
 							Saved locally until you submit.
 						</p>
 
-						<button
-							type="submit"
-							className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-500 transition hover:cursor-pointer"
-						>
-							Post Entry
-						</button>
+						{location.pathname.includes("edit") ? (
+							<button
+								type="button"
+								className="px-4 py-2 bg-emerald-600 text-sm rounded text-white hover:bg-emerald-700 transition hover:cursor-pointer"
+								onClick={() =>
+									editEntry({
+										entryID: entryData ? entryData._id : "",
+										title,
+										date,
+										content: localStorage.getItem("editorContent") || ""
+									})
+								}
+							>
+								Save Changes
+							</button>
+						) : (
+							<button
+								type="submit"
+								className="px-4 py-2 bg-emerald-600 text-sm rounded text-white hover:bg-emerald-700 transition hover:cursor-pointer"
+							>
+								Create Entry
+							</button>
+						)}
 					</div>
 				</form>
 			</div>

@@ -14,6 +14,7 @@ interface UseDiaryHook {
 		content: string;
 	}) => void;
 	deleteEntry: (entryID: string) => void;
+	deleteAllEntries: () => void;
 }
 
 export default function useDiary(): UseDiaryHook {
@@ -183,5 +184,42 @@ export default function useDiary(): UseDiaryHook {
 		}
 	});
 
-	return { createEntry, entryData, toggleVisibility, editEntry, deleteEntry };
+	const { mutate: deleteAllEntries } = useMutation({
+		mutationFn: async () => {
+			try {
+				const confirmation = confirm(
+					"Are you sure you want to delete all entries? This action cannot be undone."
+				);
+
+				if (!confirmation) return;
+
+				const response = await axios.delete(
+					`${import.meta.env.VITE_BACKEND_URL}/entry/all`,
+					{
+						withCredentials: true
+					}
+				);
+
+				return response;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["entry"]
+			});
+			localStorage.removeItem("entryData");
+			alert("All entries have been deleted.");
+		}
+	});
+
+	return {
+		createEntry,
+		entryData,
+		toggleVisibility,
+		editEntry,
+		deleteEntry,
+		deleteAllEntries
+	};
 }

@@ -31,6 +31,8 @@ export default function DiaryContentCard({
 
 	// TODO - make word count dynamic but shouldn't count HTML tags in content, maybe use a library to parse HTML and count words in text nodes only
 
+	// TODO - for some reason the entry date in the entry doesn't match the date in the URL params, need to figure out why and fix it
+
 	return (
 		<article className="p-2 shadow-sm">
 			{/* Entry metadata + privacy toggle */}
@@ -41,11 +43,18 @@ export default function DiaryContentCard({
 					</h2>
 					<time className="mt-1 block text-sm text-zinc-400">
 						{entryData?.createdAt
-							? new Date(entryData.createdAt).toLocaleDateString()
+							? new Date(entryData.createdAt).toLocaleDateString(undefined, {
+									year: "numeric",
+									month: "long",
+									day: "numeric"
+								})
 							: ""}
 						{" · "}
 						{entryData?.createdAt
-							? new Date(entryData.createdAt).toLocaleTimeString()
+							? new Date(entryData.createdAt).toLocaleTimeString(undefined, {
+									hour: "numeric",
+									minute: "numeric"
+								})
 							: ""}
 					</time>
 				</div>

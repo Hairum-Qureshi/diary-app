@@ -7,6 +7,7 @@ export default function Archive() {
 	// TODO - add search functionality
 	// TODO - add logic for highlighting months that have entries and also showing the number of entries for each month, maybe with a badge or something
 	// TODO - add logic to only show years that have entries and also sort the years in descending order so that the most recent year is at the top.
+	// TODO - display how many overall total entries the user wrote and for each year section, display how many entries (out of 365) they wrote for that year (note if it's a leap year then it's out of 366)
 
 	return (
 		<div className="min-h-screen bg-neutral-950 text-neutral-200 px-6 py-10">

@@ -7,8 +7,6 @@ import { useSearchParams } from "react-router-dom";
 export default function useCalendar(): UseCalendarHook {
 	const [searchParams] = useSearchParams();
 
-	console.log(searchParams.get("month"), searchParams.get("year"));
-
 	const months: readonly string[] = [
 		"January",
 		"February",
