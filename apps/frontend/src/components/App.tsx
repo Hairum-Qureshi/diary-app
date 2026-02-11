@@ -11,7 +11,7 @@ import DiaryEntry from "../pages/DiaryEntry";
 import Archive from "../pages/Archive";
 
 export default function App() {
-	// TODO - wrap certain routes with a middleware auth component 
+	// TODO - wrap certain routes with a middleware auth component
 	return (
 		<BrowserRouter>
 			<Navbar />
@@ -20,6 +20,7 @@ export default function App() {
 				<Route path="/about" element={<About />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/calendar" element={<Calendar />} />
+				<Route path="/calendar?month=:month&year=:year" element={<Calendar />} />
 				<Route path="/new-entry" element={<DiaryForm />} />
 				<Route path="/all-entries" element={<Archive />} />
 				<Route path="/entry/:month/:day/:year/edit" element={<DiaryForm />} />
