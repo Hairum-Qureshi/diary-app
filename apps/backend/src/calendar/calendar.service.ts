@@ -17,6 +17,6 @@ export class CalendarService {
         uid: userId,
         createdAt: { $gte: startDate, $lte: endDate },
       })
-      .select('title');
+      .select('title createdAt');
   }
 }
