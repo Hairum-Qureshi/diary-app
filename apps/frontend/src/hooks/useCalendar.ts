@@ -1,31 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-
-interface UseCalendarHook {
-	currentMonth: string;
-	currentYear: number;
-	getDaysInMonth: (month: string, year: number) => number;
-	getNextMonth: () => void;
-	getPreviousMonth: () => void;
-	getWeekDayOfMonth: (month: string, year: number, day: number) => string;
-	isToday: (month: string, year: number, day: number) => boolean;
-	months: readonly string[];
-	monthEntriesData: [
-		{
-			_id: string;
-			title: string;
-			createdAt: string;
-		}
-	];
-	allEntries: {
-		postedYears: number[];
-		archives: {
-			year: number;
-			months: number[];
-		}[];
-	};
-}
+import type { UseCalendarHook } from "../interfaces";
 
 export default function useCalendar(): UseCalendarHook {
 	const months: readonly string[] = [
