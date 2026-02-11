@@ -10,12 +10,17 @@ export class CalendarService {
   ) {}
 
   async getEntriesByMonth(month: string, year: string, userId: string) {
-    const startDate = new Date(parseInt(year), parseInt(month) - 1, 1);
-    const endDate = new Date(parseInt(year), parseInt(month), 0);
+    const startOfMonth = new Date(
+      Date.UTC(parseInt(year), parseInt(month) - 1, 1, 0, 0, 0, 0),
+    );
+    const startOfNextMonth = new Date(
+      Date.UTC(parseInt(year), parseInt(month), 1, 0, 0, 0, 0),
+    );
+
     return await this.entryModel
       .find({
         uid: userId,
-        createdAt: { $gte: startDate, $lte: endDate },
+        createdAt: { $gte: startOfMonth, $lt: startOfNextMonth },
       })
       .select('title createdAt');
   }

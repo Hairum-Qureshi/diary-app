@@ -44,7 +44,9 @@ export default function Archive() {
 							))}
 					</div>
 				) : (
-					<p className="text-sm text-neutral-400">No entries found.</p>
+					<p className="text-sm text-neutral-400 text-center text-xl mt-20">
+						No entries found
+					</p>
 				)}
 			</div>
 		</div>
