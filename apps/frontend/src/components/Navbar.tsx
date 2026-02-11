@@ -1,6 +1,6 @@
 export default function Navbar() {
 	return (
-		<div className="bg-zinc-950 pt-6 text-white text-center">
+		<div className="bg-zinc-950 h-10 flex items-center justify-center text-white">
 			<ul>
 				<li className="inline-block mx-4">
 					<a href="/" className="hover:text-emerald-500 transition">
