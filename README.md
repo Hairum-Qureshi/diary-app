@@ -124,7 +124,7 @@ npm install
 
 ### 5. Run the App
 
-From the `apps` directory:
+From the root of the monorepo:
 
 ```
 npm run dev
