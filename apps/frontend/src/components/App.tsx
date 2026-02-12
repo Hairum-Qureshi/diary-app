@@ -12,7 +12,6 @@ import "../css/index.css";
 import ProtectedRoutesGuard from "./middleware/ProtectedRoutesGuard";
 
 export default function App() {
-	// TODO - wrap certain routes with a middleware auth component
 	return (
 		<BrowserRouter>
 			<Navbar />
